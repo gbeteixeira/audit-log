@@ -41,7 +41,8 @@ jobs:
                   pnpm i
             - name: Build project
               run: |
-                  pnpm run bundle
+                  npx prisma generate
+                  pnpm run build
 
             - name: Test Bundle Server
               run: |

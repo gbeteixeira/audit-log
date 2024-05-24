@@ -1,7 +1,6 @@
 import {
 	BadRequestException,
 	Body,
-	ConflictException,
 	Controller,
 	HttpCode,
 	Post,
@@ -9,20 +8,20 @@ import {
 } from "@nestjs/common";
 import { z } from "zod";
 import { ZodValidationPipe } from "@/infra/http/pipes/zod-validation-pipe";
-import { RegisterLogUseCase } from "@/domain/audit-log/application/use-cases/register-log";
+import { RegisterLogUseCase } from "@/domain/log/application/use-cases/register-log";
 
 const createLogBodySchema = z.object({
 	userEmail: z.string().email(),
 	actionName: z.string(),
 	systemName: z.string(),
-	lastObject: z.object({}),
-	newObject: z.object({}),
+	lastObject: z.any(),
+	newObject: z.any(),
 });
 
 type CreateLogBodySchema = z.infer<typeof createLogBodySchema>;
 
 @Controller("/log")
-export class CreateAuditLogController {
+export class CreateLogController {
 	constructor(private registerLogUseCase: RegisterLogUseCase) {}
 
 	@Post()
@@ -40,18 +39,8 @@ export class CreateAuditLogController {
 			newObject,
 		});
 
-		return {
-			result,
-		};
-		// if (result.isLeft()) {
-		//   const error = result.value
-
-		//   switch (error.constructor) {
-		//     case StudentAlreadyExistsError:
-		//       throw new ConflictException(error.message)
-		//     default:
-		//       throw new BadRequestException(error.message)
-		//   }
-		// }
+		if (result.isLeft()) {
+			throw new BadRequestException(result.value);
+		}
 	}
 }

@@ -1,47 +1,20 @@
-FROM node:18.17.0-alpine As development
+FROM node:18.17.0-alpine as builder
 
-WORKDIR /usr/src/app
-
-COPY package.json ./
-COPY pnpm-lock.yaml ./
-
-# Instala o PNPM globalmente usando npm
-RUN npm install -g pnpm
-
-# Instala o NestJS CLI globalmente
-RUN npm install -g @nestjs/cli
-
-COPY .env.example .env
-
-RUN pnpm install
+WORKDIR /app
 
 COPY . .
 
-RUN npx prisma generate && pnpm run build
-
-FROM node:18.17.0-alpine as production
-
-ARG NODE_ENV=production
-ARG EnvironmentVariable
-ENV NODE_ENV=${NODE_ENV}
-
-WORKDIR /usr/src/app
-
-COPY package.json ./
-COPY pnpm-lock.yaml ./
-
-# Instala o PNPM globalmente usando npm
-RUN npm install -g pnpm
-
-# Instala o NestJS CLI globalmente
-RUN npm install -g @nestjs/cli
-
-COPY .env.example .env
-
+RUN apk add git make g++ alpine-sdk python3 py3-pip unzip
+RUN npm i -g pnpm
 RUN pnpm install
+RUN pnpm bundle
 
-COPY . .
+FROM node:18.17.0-alpine
 
-COPY --from=development /usr/src/app/dist ./dist
+RUN apk add zip unzip bash --no-cache
 
-CMD ["node", "dist/main"]
+WORKDIR /app
+
+COPY --from=builder /app/out .
+
+CMD ["npm", "start:prod"]

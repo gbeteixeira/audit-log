@@ -22,7 +22,9 @@
 		"prepare": "husky || true",
 		"release": "release-it",
 		"run:setup": "docker compose up -d && pnpm install && npx prisma migrate dev && npx prisma generate",
-		"reset:hard": "pnpm run clean && npx prisma migrate reset --force"
+		"reset:hard": "pnpm run clean && npx prisma migrate reset --force",
+		"prebuild": "rimraf dist",
+		"bundle": "rimraf out && pnpm run build && cd dist/src && npx ncc build infra/main.js -o ../../out -m"
 	},
 	"dependencies": {
 		"@nestjs/common": "^10.0.0",
@@ -40,6 +42,7 @@
 		"@commitlint/cli": "^19.3.0",
 		"@commitlint/config-conventional": "^19.2.2",
 		"@commitlint/types": "^19.0.3",
+		"@ianvs/prettier-plugin-sort-imports": "^4.2.1",
 		"@nestjs/cli": "^10.0.0",
 		"@nestjs/schematics": "^10.0.0",
 		"@nestjs/testing": "^10.0.0",
@@ -55,11 +58,15 @@
 		"commitlint": "^19.3.0",
 		"dotenv": "^16.4.5",
 		"eslint": "^8.42.0",
+		"eslint-config-prettier": "^9.1.0",
 		"husky": "^9.0.11",
 		"inquirer": "9",
 		"lint-staged": "^15.2.4",
+		"prettier": "^3.2.5",
+		"prettier-plugin-tailwindcss": "^0.5.14",
 		"prisma": "^5.14.0",
 		"release-it": "17.3.0",
+		"rimraf": "^5.0.7",
 		"source-map-support": "^0.5.21",
 		"supertest": "^7.0.0",
 		"ts-node": "^10.9.1",
@@ -67,11 +74,7 @@
 		"typescript": "^5.1.3",
 		"unplugin-swc": "^1.4.5",
 		"vite-tsconfig-paths": "^4.3.2",
-		"vitest": "^1.6.0",
-		"eslint-config-prettier": "^9.1.0",
-		"@ianvs/prettier-plugin-sort-imports": "^4.2.1",
-		"prettier": "^3.2.5",
-		"prettier-plugin-tailwindcss": "^0.5.14"
+		"vitest": "^1.6.0"
 	},
 	"release-it": {
 		"git": {

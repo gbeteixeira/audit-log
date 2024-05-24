@@ -17,6 +17,16 @@ jobs:
             matrix:
                 node-version: [18.x]
 
+        services:
+            postgres:
+                image: bitnami/postgresql
+                ports:
+                    - 5432:5432
+                env:
+                    POSTGRESQL_USERNAME: docker
+                    POSTGRESQL_PASSWORD: docker
+                    POSTGRESQL_DATABASE: auditlog
+
         steps:
             - uses: actions/checkout@v4
             - name: Use Node.js ${{ matrix.node-version }}
@@ -42,7 +52,10 @@ jobs:
             - name: Build project
               run: |
                   npx prisma generate
-                  pnpm run build
+                  npx prisma migrate dev
+                  npm run bundle
+              env:
+                  DATABASE_URL: "postgresql://docker:docker@localhost:5432/auditlog?schema=public"
 
             - name: Test Bundle Server
               run: |

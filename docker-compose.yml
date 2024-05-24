@@ -1,27 +1,10 @@
 version: "3.8"
 
 services:
-    app:
-        container_name: audit-log
-        image: gbetxr/audit-log:latest
-        # command: node src/infra/main.js --allowed_origins=${ALLOWED_ORIGINS} --color --cluster
-        environment:
-            - NODE_ENV=production
-        restart: "on-failure"
-        volumes:
-            - ./data/nest:/root/.nest
-        ports:
-            - ${APP_PORT-3333}:${APP_PORT-3333}
-        depends_on:
-            - postgres
-        links:
-            - postgres
-
     postgres:
-        container_name: audit-db
         image: bitnami/postgresql:latest
         ports:
-            - ${DATABASE_PORT-5432}:5432
+            - ${DATABASE_PORT-5432}:${DATABASE_PORT-5432}
         environment:
             POSTGRES_USER: ${DB_USERNAME-user}
             POSTGRES_PASSWORD: ${DB_PASSWORD-rootpass}
@@ -34,3 +17,10 @@ services:
             interval: 10s
             timeout: 5s
             retries: 5
+
+    api:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - ${APP_PORT-3333}:${APP_PORT-3333}

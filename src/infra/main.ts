@@ -8,7 +8,7 @@ async function bootstrap() {
 	});
 
 	const configService = app.get(EnvService);
-	const port = configService.get("PORT");
+	const port = configService.get("APP_PORT");
 
 	await app.listen(port);
 }

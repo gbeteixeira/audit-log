@@ -2,14 +2,16 @@ version: "3.8"
 
 services:
     postgres:
-        container_name: nest-clean-pg
-        image: postgres
+        container_name: audit-db
+        image: bitnami/postgresql:latest
         ports:
-            - 5432:5432
+            - ${DATABASE_PORT-5432}:5432
         environment:
-            POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: docker
-            POSTGRES_DB: nest-clean
+            POSTGRES_USER: ${DB_USERNAME-user}
+            POSTGRES_PASSWORD: ${DB_PASSWORD-rootpass}
+            POSTGRES_DB: ${DB_DATABASE-database}
             PGDATA: /data/postgres
         volumes:
             - ./data/pg:/data/postgres
+        healthcheck:
+            test: pg_isready -U ${DB_USERNAME-user} -d ${DB_DATABASE-database}

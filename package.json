@@ -19,7 +19,9 @@
 		"test:e2e": "vitest run --config ./vitest.config.e2e.ts",
 		"test:e2e:watch": "vitest --config ./vitest.config.e2e.ts",
 		"test:ui": "vitest --ui",
-		"prepare": "husky"
+		"prepare": "husky",
+		"run:setup": "docker compose up -d && pnpm install && npx prisma migrate dev && npx prisma generate",
+		"reset:hard": "pnpm run clean && npx prisma migrate reset --force"
 	},
 	"dependencies": {
 		"@nestjs/common": "^10.0.0",

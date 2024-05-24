@@ -2,19 +2,33 @@ FROM node:18.17.0-alpine as builder
 
 WORKDIR /app
 
+RUN apk add bash
+RUN npm i -g pnpm @nestjs/cli typescript ts-node
+
+COPY package.json  pnpm-lock.yaml .
+
 COPY . .
 
-RUN apk add git make g++ alpine-sdk python3 py3-pip unzip
-RUN npm i -g pnpm
 RUN pnpm install
 RUN pnpm bundle
 
 FROM node:18.17.0-alpine
 
-RUN apk add zip unzip bash --no-cache
+RUN apk add bash
+RUN npm i -g pnpm @nestjs/cli typescript ts-node
+
+COPY package.json  pnpm-lock.yaml .
+
+RUN pnpm install
+
+COPY . .
 
 WORKDIR /app
 
-COPY --from=builder /app/out .
+COPY --from=builder /app/dist .
 
-CMD ["npm", "start:prod"]
+RUN chmod +x /scripts/wait-for-it.sh /scripts/prod.sh
+RUN sed -i 's/\r//g' /scripts/wait-for-it.sh
+RUN sed -i 's/\r//g' /scripts/prod.sh
+
+CMD ["/scripts/prod.sh"]

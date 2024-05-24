@@ -23,8 +23,7 @@
 		"release": "release-it",
 		"run:setup": "docker compose up -d && pnpm install && npx prisma migrate dev && npx prisma generate",
 		"reset:hard": "pnpm run clean && npx prisma migrate reset --force",
-		"prebuild": "rimraf dist",
-		"bundle": "rimraf out && pnpm run build && cd dist/src && npx ncc build infra/main.js -o ../../out -m"
+		"bundle": "npx prisma generate && pnpm run build"
 	},
 	"dependencies": {
 		"@nestjs/common": "^10.0.0",
@@ -66,7 +65,6 @@
 		"prettier-plugin-tailwindcss": "^0.5.14",
 		"prisma": "^5.14.0",
 		"release-it": "17.3.0",
-		"rimraf": "^5.0.7",
 		"source-map-support": "^0.5.21",
 		"supertest": "^7.0.0",
 		"ts-node": "^10.9.1",

@@ -52,12 +52,15 @@ jobs:
                   npm run test:e2e
               env:
                   DATABASE_URL: "postgresql://docker:docker@localhost:5432/auditlog?schema=public"
+
             - name: Build project
               run: |
                   pnpm run bundle
+
             - name: Test Bundle Server
               run: |
-                  bash scripts/workflow/test-server.sh
+                  bash scripts/workflows/test-server.sh
+
             - name: Create Release
               id: create_release
               uses: actions/create-release@v1
@@ -68,6 +71,7 @@ jobs:
                   release_name: Release ${{ github.ref }}
                   draft: false
                   prerelease: false
+
             - name: Upload Release Asset
               id: upload-release-asset
               uses: actions/upload-release-asset@v1

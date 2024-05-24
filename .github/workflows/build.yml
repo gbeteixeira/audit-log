@@ -46,6 +46,6 @@ jobs:
 
             - name: Test Bundle Server
               run: |
-                  bash scripts/workflow/test-server.sh
+                  bash scripts/workflows/test-server.sh
     test:
         uses: ./.github/workflows/test.yml

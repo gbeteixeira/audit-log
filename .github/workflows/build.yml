@@ -41,7 +41,7 @@ jobs:
                   pnpm i
             - name: Build project
               run: |
-                  npm run bundle
+                  pnpm run bundle
 
             - name: Test Bundle Server
               run: |

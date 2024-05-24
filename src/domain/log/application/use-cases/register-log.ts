@@ -1,4 +1,3 @@
-import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { Either, right } from "@/core/either";
 import { Injectable } from "@nestjs/common";
 import { Log } from "../../enterprise/entities/log";

@@ -52,8 +52,8 @@ jobs:
             - name: Build project
               run: |
                   npx prisma generate
-                  npx prisma migrate dev
-                  npm run bundle
+                  pnpm run bundle
+                  pnpm run start:prod
               env:
                   DATABASE_URL: "postgresql://docker:docker@localhost:5432/auditlog?schema=public"
 

@@ -10,7 +10,7 @@ COPY package.json  pnpm-lock.yaml .
 COPY . .
 
 RUN pnpm install
-RUN pnpm bundle
+RUN pnpm run bundle
 
 FROM node:18.17.0-alpine
 

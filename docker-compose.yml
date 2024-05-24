@@ -3,7 +3,7 @@ version: "3.8"
 services:
     app:
         container_name: audit-log
-        image: italic/audit-log:latest
+        image: gbetxr/audit-log:latest
         command: node src/infra/main.js --allowed_origins=${ALLOWED_ORIGINS} --color --cluster
         environment:
             - NODE_ENV=production

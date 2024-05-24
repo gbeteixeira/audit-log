@@ -6,6 +6,7 @@ RUN apk add bash
 RUN npm i -g pnpm @nestjs/cli typescript ts-node
 
 COPY package.json  pnpm-lock.yaml .
+COPY .env.example .env
 
 COPY . .
 
@@ -18,6 +19,7 @@ RUN apk add bash
 RUN npm i -g pnpm @nestjs/cli typescript ts-node
 
 COPY package.json  pnpm-lock.yaml .
+COPY .env.example .env
 
 RUN pnpm install
 

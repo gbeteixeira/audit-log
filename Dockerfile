@@ -10,8 +10,7 @@ COPY .env.example .env
 
 COPY . .
 
-RUN pnpm install
-RUN pnpm run bundle
+RUN pnpm install && pnpm run bundle
 
 FROM node:18.17.0-alpine
 

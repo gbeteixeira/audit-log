@@ -18,15 +18,13 @@ jobs:
                     POSTGRESQL_DATABASE: auditlog
 
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
 
-            - uses: actions/setup-node@v3
+            - name: Setup pnpm
+              uses: pnpm/setup-node@v4
               with:
-                  node-version: 18
-                  cache: "npm"
+                  version: 8
 
-            - run: npm ci
-
-            - run: npm run test:e2e
+            - run: pnpm run test:e2e
               env:
                   DATABASE_URL: "postgresql://docker:docker@localhost:5432/auditlog?schema=public"

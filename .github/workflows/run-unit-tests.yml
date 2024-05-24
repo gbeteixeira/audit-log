@@ -15,4 +15,6 @@ jobs:
               with:
                   version: 8
 
+            - run: pnpm i
+
             - run: pnpm run test

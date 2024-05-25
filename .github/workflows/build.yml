@@ -59,5 +59,7 @@ jobs:
             - name: Test Bundle Server
               run: |
                   bash scripts/workflows/test-server.sh
+              env:
+                  DATABASE_URL: "postgresql://docker:docker@localhost:5432/auditlog?schema=public"
     test:
         uses: ./.github/workflows/test.yml

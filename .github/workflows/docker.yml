@@ -47,6 +47,8 @@ jobs:
               run: |
                   bash ./scripts/workflows/test-docker.sh
                   sudo rm -rf ./data
+              env:
+                  DATABASE_URL: "postgresql://docker:docker@localhost:5432/auditlog?schema=public"
             - name: Build and push
               id: docker_build
               uses: docker/build-push-action@v5

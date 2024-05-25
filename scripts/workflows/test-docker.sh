@@ -20,7 +20,7 @@ fi
 
 # curl https://cdn.jsdelivr.net/gh/Innei/nest-http-template@master/docker-compose.yml >docker-compose.yml
 
-docker-compose up -d
+docker-compose up --build -d
 
 if [[ $? -ne 0 ]]; then
   echo "failed to run docker-compose instance"

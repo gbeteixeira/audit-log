@@ -24,5 +24,3 @@ services:
             dockerfile: Dockerfile
         ports:
             - ${APP_PORT-3333}:${APP_PORT-3333}
-        env_file:
-            - .env

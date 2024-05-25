@@ -25,11 +25,11 @@ WORKDIR /app
 RUN apk add --no-cache bash
 RUN npm i -g @nestjs/cli typescript ts-node
 
-COPY ./wait-for-it.sh /opt/wait-for-it.sh
-RUN chmod +x /opt/wait-for-it.sh
-
 COPY ./prod.sh /opt/prod.sh
 RUN chmod +x /opt/prod.sh
+
+COPY ./wait-for-it.sh /opt/wait-for-it.sh
+RUN chmod +x /opt/wait-for-it.sh
 
 COPY .env.example .env
 
@@ -39,5 +39,6 @@ RUN sed -i 's/\r//g' /opt/prod.sh
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/prisma ./prisma
 
 CMD ["/opt/prod.sh"]

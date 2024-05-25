@@ -3,6 +3,6 @@ set -e
 
 source .env
 
-/opt/wait-for-it.sh $DB_HOST:$DB_PORT
+# /opt/wait-for-it.sh $DB_HOST:$DB_PORT
 npx prisma migrate dev
-node src/infra/main.js
+npm run start:prod

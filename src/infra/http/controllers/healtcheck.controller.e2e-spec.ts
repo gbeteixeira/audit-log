@@ -25,6 +25,7 @@ describe("Create Log (E2E)", () => {
 			.get("/health-check/ping")
 			.send();
 
-		expect(response.body).toBe("pong");
+		expect(response.text).toBe("pong");
+		expect(response.status).toBe(200);
 	});
 });

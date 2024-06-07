@@ -1,6 +1,21 @@
 version: "3.8"
 
 services:
+    backend:
+        container_name: audit-log-backend
+        build:
+            context: .
+            dockerfile: ./docker/prod/Dockerfile
+        image: italic/audit-log:v1
+        ports:
+            - ${APP_PORT-3333}:${APP_PORT-333}
+        command: pnpm run start
+        env_file:
+            - ${ENV_FILE}
+        depends_on:
+            - postgres
+        networks:
+            - sso-net
     postgres:
         image: bitnami/postgresql:latest
         ports:
@@ -12,16 +27,13 @@ services:
             PGDATA: /data/postgres
         volumes:
             - ./data/pg:/data/postgres
+        networks:
+            - sso-net
         healthcheck:
             test: pg_isready
             interval: 10s
             timeout: 5s
             retries: 5
 
-    api:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        command: npm run start:prod
-        ports:
-            - ${APP_PORT-3333}:${APP_PORT-3333}
+networks:
+    sso-net:

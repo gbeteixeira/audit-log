@@ -10,12 +10,10 @@ services:
         ports:
             - ${APP_PORT-3333}:${APP_PORT-333}
         command: pnpm run start
-        env_file:
-            - ${ENV_FILE}
         depends_on:
             - postgres
         networks:
-            - sso-net
+            - audit-net
     postgres:
         image: bitnami/postgresql:latest
         ports:
@@ -28,7 +26,7 @@ services:
         volumes:
             - ./data/pg:/data/postgres
         networks:
-            - sso-net
+            - audit-net
         healthcheck:
             test: pg_isready
             interval: 10s
@@ -36,4 +34,4 @@ services:
             retries: 5
 
 networks:
-    sso-net:
+    audit-net:

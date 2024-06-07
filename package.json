@@ -23,7 +23,6 @@
 		"release": "release-it",
 		"run:setup": "docker compose up -d && pnpm install && npx prisma migrate dev && npx prisma generate",
 		"reset:hard": "pnpm run clean && npx prisma migrate reset --force",
-		"bundle": "npx prisma generate && pnpm run build",
 		"postinstall": "npx prisma generate"
 	},
 	"dependencies": {

@@ -30,6 +30,12 @@ cp .env.example .env
 pnpm run start:dev
 ```
 
+## Docker build image
+
+```
+ docker-compose --env-file /path/env.file up -d --build
+```
+
 > [!NOTE]
 > Utilizei [npm-check-updates](https://www.npmjs.com/package/npm-check-updates) como pacote para atualização do projeto.
 >
